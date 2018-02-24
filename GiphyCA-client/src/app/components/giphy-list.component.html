@@ -1,0 +1,61 @@
+
+<h2> Giphy Page</h2>
+<form #searchForm="ngForm" (ngSubmit)="searchGiphy(searchForm)">
+    <div class="container">
+        <table class=".table-bordered" style="width:100%">
+           
+              <tbody>
+                <tr><td >
+    <div class="form-group col-md-4">
+      <label style="width:400%">Enter Username</label>
+      <input type="text" name="username" style="width:400%" class="form-control" placeholder="enter userName" required ngModel/>
+    </div>
+  </td><td>
+    <div class="form-group col-md-4">
+      <label style="width:400%">Search Giphy</label>
+      <input type="text" name="searchString" style="width:400%" class="form-control" placeholder="search giphy" required ngModel/>
+    </div>
+  </td><td>
+    <div class="form-group col-md-4">
+        <div class="container">
+        <table class=".table-bordered" style="width:100%">
+           
+            <tbody>
+              <tr><td ><label></label>
+      <button type="submit" class="btn btn-success" [disabled]="searchForm.invalid">Search</button>
+     </td><td><label></label>
+      <button type="button" class="btn btn-primary" (click)="retrieveSavedGiphy(searchForm)">Get Saved Giphy</button>
+    </td></tr></tbody></table></div>
+    </div>
+  </td>
+  </tr></tbody></table></div>
+  </form>
+  <br>
+  <div *ngIf="noOfResult != 0">
+  <label class="control-label col-sm-2">{{noOfResult}} result Found...</label>
+  </div>
+<div *ngFor="let model of giphys | paginate : {itemsPerPage:4, currentPage: p}" >
+    
+    <form #saveForm="ngForm" class="container-fluid">
+    <input type="hidden" name="giphypath" [value]="model.giphypath" [ngModel]="model.giphypath" />
+    <div class="container">
+    <table class=".table-hover" style="width:100%">
+       
+          <tbody>
+            <tr>
+             <td style="width:50%">
+    <img class="img-rounded" [src]="model.giphypath" style="width:40%" >
+  </td> <td>
+    <div *ngIf="model.saved != true">
+       
+    <button (click)="saveGiphy(model)" class="btn btn-info">Save Giphy</button>
+
+  </div>   </td>
+</tr>
+</tbody>
+</table>  </div>
+
+ </form>
+ 
+</div>
+<pagination-controls (pageChange)="p=$event"></pagination-controls>
